@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Page = () => {
-  return (<p>Container!</p>);
+const Page: React.FC = () => {
+  return <p>Container!</p>;
 };
 
- export default Page;
+export default Page;
