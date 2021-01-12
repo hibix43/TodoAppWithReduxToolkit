@@ -1,7 +1,8 @@
 import React from 'react';
+import List from './List';
 
 const Page: React.FC = () => {
-  return <p>Container!</p>;
+  return <List />;
 };
 
 export default Page;
