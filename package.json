@@ -1,7 +1,7 @@
 {
   "name": "todoapp-with-rtk",
   "scripts": {
-    "start": "webpack serve --open --mode development --watch --hot --inline",
+    "start": "webpack serve --open --mode development --hot --inline",
     "build": "webpack --mode=production",
     "format": "prettier src --write",
     "lint": "eslint src --ext .ts,tsx  --fix"
