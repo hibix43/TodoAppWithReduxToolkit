@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Form from './Form';
 import List from './List';
 
 export type Todo = {
@@ -13,7 +14,16 @@ const DUMMY: Todo[] = [
 ];
 
 const Page: React.FC = () => {
-  return <List todos={DUMMY} />;
+  const [newTodoName, setNewTodoName] = useState('');
+  const changeNewTodoName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodoName(e.target.value);
+  };
+  return (
+    <div>
+      <Form todoName={newTodoName} changeTodoNameHandler={changeNewTodoName} />
+      <List todos={DUMMY} />
+    </div>
+  );
 };
 
 export default Page;
