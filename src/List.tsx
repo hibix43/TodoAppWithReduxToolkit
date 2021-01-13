@@ -1,12 +1,17 @@
 import React from 'react';
 import ListRow from './ListRow';
+import { Todo } from './Page';
 
-const List: React.FC = () => {
-  const rows = dummy.map((task, index) => {
+type Props = {
+  todos: Todo[];
+};
+
+const List: React.FC<Props> = ({ todos }) => {
+  const rows = todos.map((todo, index) => {
     return (
       <ListRow
-        name={task.name}
-        completed={task.completed}
+        name={todo.name}
+        completed={todo.completed}
         key={'row' + index}
       />
     );
@@ -15,9 +20,3 @@ const List: React.FC = () => {
 };
 
 export default List;
-
-const dummy: { name: string; completed: boolean }[] = [
-  { name: 'Elva Reed', completed: false },
-  { name: 'Lora Benson', completed: false },
-  { name: 'Marcus Cunningham', completed: true }
-];
