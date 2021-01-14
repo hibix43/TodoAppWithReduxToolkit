@@ -7,21 +7,26 @@ export type Todo = {
   completed: boolean;
 };
 
-const DUMMY: Todo[] = [
-  { name: 'Elva Reed', completed: false },
-  { name: 'Lora Benson', completed: false },
-  { name: 'Marcus Cunningham', completed: true }
-];
-
 const Page: React.FC = () => {
-  const [newTodoName, setNewTodoName] = useState('');
+  const [newTodoName, setNewTodoName] = useState<string>('');
+  const [todos, setTodos] = useState<Todo[]>([]);
   const changeNewTodoName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTodoName(e.target.value);
   };
+  const addTodo = (e: React.MouseEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (newTodoName === '') return;
+    setNewTodoName('');
+    setTodos([...todos, { name: newTodoName, completed: false }]);
+  };
   return (
     <div>
-      <Form todoName={newTodoName} changeTodoNameHandler={changeNewTodoName} />
-      <List todos={DUMMY} />
+      <Form
+        todoName={newTodoName}
+        addTodoSubmitHandler={addTodo}
+        changeTodoNameHandler={changeNewTodoName}
+      />
+      <List todos={todos} />
     </div>
   );
 };
