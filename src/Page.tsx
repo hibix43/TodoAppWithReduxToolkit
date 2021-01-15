@@ -26,7 +26,16 @@ const Page: React.FC = () => {
         addTodoSubmitHandler={addTodo}
         changeTodoNameHandler={changeNewTodoName}
       />
-      <List todos={todos} />
+      <List
+        todos={todos.filter((todo) => {
+          !todo.completed;
+        })}
+      />
+      <List
+        todos={todos.filter((todo) => {
+          todo.completed;
+        })}
+      />
     </div>
   );
 };
