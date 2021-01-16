@@ -3,6 +3,7 @@ import Form from './Form';
 import List from './List';
 
 export type Todo = {
+  id: number;
   name: string;
   completed: boolean;
 };
@@ -17,7 +18,25 @@ const Page: React.FC = () => {
     e.preventDefault();
     if (newTodoName === '') return;
     setNewTodoName('');
-    setTodos([...todos, { name: newTodoName, completed: false }]);
+    setTodos([
+      ...todos,
+      { id: todos.length, name: newTodoName, completed: false }
+    ]);
+  };
+  const changeTodoChecked = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    const changedTodo = {
+      ...todos.find((todo) => todo.id == id),
+      completed: e.target.checked
+    };
+    setTodos(
+      Object.assign([
+        ...todos.filter((todo) => todo.id != changedTodo.id),
+        changedTodo
+      ])
+    );
   };
   return (
     <div>
@@ -27,14 +46,12 @@ const Page: React.FC = () => {
         changeTodoNameHandler={changeNewTodoName}
       />
       <List
-        todos={todos.filter((todo) => {
-          !todo.completed;
-        })}
+        todos={todos.filter((todo) => !todo.completed)}
+        changeCheckedHandler={changeTodoChecked}
       />
       <List
-        todos={todos.filter((todo) => {
-          todo.completed;
-        })}
+        todos={todos.filter((todo) => todo.completed)}
+        changeCheckedHandler={changeTodoChecked}
       />
     </div>
   );
