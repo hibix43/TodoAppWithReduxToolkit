@@ -1,27 +1,21 @@
 import React from 'react';
+import { Todo } from './Page';
 
 type Props = {
-  id: number;
-  name: string;
-  completed: boolean;
+  todo: Todo;
   changeCheckedHandler: (
     e: React.ChangeEvent<HTMLInputElement>,
     id: number
   ) => void;
 };
 
-const ListRow: React.FC<Props> = ({
-  id,
-  name,
-  completed,
-  changeCheckedHandler
-}) => {
+const ListRow: React.FC<Props> = ({ todo, changeCheckedHandler }) => {
   return (
     <li>
       <input
         type="checkbox"
-        checked={completed}
-        onChange={(e) => changeCheckedHandler(e, id)}
+        checked={todo.completed}
+        onChange={(e) => changeCheckedHandler(e, todo.id)}
       />
       {name}
     </li>
