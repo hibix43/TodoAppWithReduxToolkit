@@ -1,19 +1,24 @@
 import React from 'react';
 
 type Props = {
-  todoName: string;
-  addTodoSubmitHandler: (e: React.MouseEvent<HTMLFormElement>) => void;
-  changeTodoNameHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  submitValue: () => void;
+  changeValue: (value: string) => void;
 };
 
-const Form: React.FC<Props> = ({
-  todoName,
-  addTodoSubmitHandler,
-  changeTodoNameHandler
-}) => {
+const Form: React.FC<Props> = ({ value, submitValue, changeValue }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    changeValue(e.target.value);
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    submitValue();
+  };
+
   return (
-    <form onSubmit={addTodoSubmitHandler}>
-      <input type="text" value={todoName} onChange={changeTodoNameHandler} />
+    <form onSubmit={handleSubmit}>
+      <input type="text" value={value} onChange={handleChange} />
       <button type="submit">追加</button>
     </form>
   );

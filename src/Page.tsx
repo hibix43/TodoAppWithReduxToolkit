@@ -11,18 +11,14 @@ export type Todo = {
 const Page: React.FC = () => {
   const [newTodoName, setNewTodoName] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>([]);
-  const changeNewTodoName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodoName(e.target.value);
-  };
-  const addTodo = (e: React.MouseEvent<HTMLFormElement>) => {
-    e.preventDefault();
+
+  const addTodo = () => {
     if (newTodoName === '') return;
+    const newTodo = { id: todos.length, name: newTodoName, completed: false };
     setNewTodoName('');
-    setTodos([
-      ...todos,
-      { id: todos.length, name: newTodoName, completed: false }
-    ]);
+    setTodos([...todos, newTodo]);
   };
+
   const changeTodoChecked = (
     e: React.ChangeEvent<HTMLInputElement>,
     id: number
@@ -38,12 +34,13 @@ const Page: React.FC = () => {
       ])
     );
   };
+
   return (
     <div>
       <Form
-        todoName={newTodoName}
-        addTodoSubmitHandler={addTodo}
-        changeTodoNameHandler={changeNewTodoName}
+        value={newTodoName}
+        submitValue={addTodo}
+        changeValue={setNewTodoName}
       />
       <List
         todos={todos.filter((todo) => !todo.completed)}
