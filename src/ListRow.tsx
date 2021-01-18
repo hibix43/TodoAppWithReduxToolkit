@@ -17,7 +17,7 @@ const ListRow: React.FC<Props> = ({ todo, changeCheckedHandler }) => {
         checked={todo.completed}
         onChange={(e) => changeCheckedHandler(e, todo.id)}
       />
-      {name}
+      {todo.name}
     </li>
   );
 };
