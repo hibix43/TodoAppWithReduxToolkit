@@ -4,18 +4,19 @@ import { Todo } from './Page';
 
 type Props = {
   todos: Todo[];
-  changeCheckedHandler: (
-    e: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => void;
+  changeChecked: (id: number, completed: boolean) => void;
 };
 
-const List: React.FC<Props> = ({ todos, changeCheckedHandler }) => {
+const List: React.FC<Props> = ({ todos, changeChecked }) => {
+  const handleChange = (id: number, completed: boolean) => {
+    changeChecked(id, completed);
+  };
+
   const rows = todos.map((todo) => {
     return (
       <ListRow
         todo={todo}
-        changeCheckedHandler={changeCheckedHandler}
+        changeChecked={(checked) => handleChange(todo.id, checked)}
         key={todo.id}
       />
     );

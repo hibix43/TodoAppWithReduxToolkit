@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Form from './Form';
+import { FormContainer } from './FormContainer';
 import List from './List';
 
 export type Todo = {
@@ -19,14 +19,8 @@ const Page: React.FC = () => {
     setTodos([...todos, newTodo]);
   };
 
-  const changeTodoChecked = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    const changedTodo = {
-      ...todos.find((todo) => todo.id == id),
-      completed: e.target.checked
-    };
+  const changeTodoChecked = (id: number, completed: boolean) => {
+    const changedTodo = { ...todos.find((todo) => todo.id == id), completed };
     setTodos(
       Object.assign([
         ...todos.filter((todo) => todo.id != changedTodo.id),
@@ -37,18 +31,19 @@ const Page: React.FC = () => {
 
   return (
     <div>
-      <Form
-        value={newTodoName}
-        submitValue={addTodo}
-        changeValue={setNewTodoName}
+      <FormContainer
+        inputValue={newTodoName}
+        buttonChildren={'追加'}
+        onSubmit={addTodo}
+        onChange={setNewTodoName}
       />
       <List
         todos={todos.filter((todo) => !todo.completed)}
-        changeCheckedHandler={changeTodoChecked}
+        changeChecked={changeTodoChecked}
       />
       <List
         todos={todos.filter((todo) => todo.completed)}
-        changeCheckedHandler={changeTodoChecked}
+        changeChecked={changeTodoChecked}
       />
     </div>
   );
