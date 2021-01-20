@@ -39,11 +39,11 @@ const Page: React.FC = () => {
       />
       <List
         todos={todos.filter((todo) => !todo.completed)}
-        changeChecked={changeTodoChecked}
+        onChange={changeTodoChecked}
       />
       <List
         todos={todos.filter((todo) => todo.completed)}
-        changeChecked={changeTodoChecked}
+        onChange={changeTodoChecked}
       />
     </div>
   );
