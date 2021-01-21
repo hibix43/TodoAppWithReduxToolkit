@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormContainer } from './FormContainer';
-import List from './List';
+import { ListContainer } from './ListContainer';
 
 export type Todo = {
   id: number;
@@ -37,11 +37,11 @@ const Page: React.FC = () => {
         onSubmit={addTodo}
         onChange={setNewTodoName}
       />
-      <List
+      <ListContainer
         todos={todos.filter((todo) => !todo.completed)}
         onChange={changeTodoChecked}
       />
-      <List
+      <ListContainer
         todos={todos.filter((todo) => todo.completed)}
         onChange={changeTodoChecked}
       />
