@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Form from './Form';
-import List from './List';
+import { FormContainer } from './FormContainer';
+import { ListContainer } from './ListContainer';
 
 export type Todo = {
   id: number;
@@ -11,26 +11,16 @@ export type Todo = {
 const Page: React.FC = () => {
   const [newTodoName, setNewTodoName] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>([]);
-  const changeNewTodoName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodoName(e.target.value);
-  };
-  const addTodo = (e: React.MouseEvent<HTMLFormElement>) => {
-    e.preventDefault();
+
+  const addTodo = () => {
     if (newTodoName === '') return;
+    const newTodo = { id: todos.length, name: newTodoName, completed: false };
     setNewTodoName('');
-    setTodos([
-      ...todos,
-      { id: todos.length, name: newTodoName, completed: false }
-    ]);
+    setTodos([...todos, newTodo]);
   };
-  const changeTodoChecked = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    const changedTodo = {
-      ...todos.find((todo) => todo.id == id),
-      completed: e.target.checked
-    };
+
+  const changeTodoChecked = (id: number, completed: boolean) => {
+    const changedTodo = { ...todos.find((todo) => todo.id == id), completed };
     setTodos(
       Object.assign([
         ...todos.filter((todo) => todo.id != changedTodo.id),
@@ -38,20 +28,22 @@ const Page: React.FC = () => {
       ])
     );
   };
+
   return (
     <div>
-      <Form
-        todoName={newTodoName}
-        addTodoSubmitHandler={addTodo}
-        changeTodoNameHandler={changeNewTodoName}
+      <FormContainer
+        inputValue={newTodoName}
+        buttonChildren={'追加'}
+        onSubmit={addTodo}
+        onChange={setNewTodoName}
       />
-      <List
+      <ListContainer
         todos={todos.filter((todo) => !todo.completed)}
-        changeCheckedHandler={changeTodoChecked}
+        onChange={changeTodoChecked}
       />
-      <List
+      <ListContainer
         todos={todos.filter((todo) => todo.completed)}
-        changeCheckedHandler={changeTodoChecked}
+        onChange={changeTodoChecked}
       />
     </div>
   );
