@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FormContainer } from './FormContainer';
+import { Header } from './Header';
 import { ListContainer } from './ListContainer';
 
 export type Todo = {
@@ -29,22 +30,22 @@ const Page: React.FC = () => {
     );
   };
 
+  const incompleteTodos = todos.filter((todo) => !todo.completed);
+  const completedTodos = todos.filter((todo) => todo.completed);
+
   return (
     <div>
+      <Header level={1}>{'TodoList'}</Header>
       <FormContainer
         inputValue={newTodoName}
         buttonChildren={'追加'}
         onSubmit={addTodo}
         onChange={setNewTodoName}
       />
-      <ListContainer
-        todos={todos.filter((todo) => !todo.completed)}
-        onChange={changeTodoChecked}
-      />
-      <ListContainer
-        todos={todos.filter((todo) => todo.completed)}
-        onChange={changeTodoChecked}
-      />
+      <Header level={2}>{`未完了: ${incompleteTodos.length} 件`}</Header>
+      <ListContainer todos={incompleteTodos} onChange={changeTodoChecked} />
+      <Header level={2}>{`完了: ${completedTodos.length} 件`}</Header>
+      <ListContainer todos={completedTodos} onChange={changeTodoChecked} />
     </div>
   );
 };
