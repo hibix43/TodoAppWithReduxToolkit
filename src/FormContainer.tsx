@@ -26,7 +26,12 @@ export const FormContainer: React.FC<Props> = ({
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Input type="text" value={inputValue} onChange={handleChange} />
+      <Input
+        labelText={''}
+        type="text"
+        value={inputValue}
+        onChange={handleChange}
+      />
       <Button type="submit">{buttonChildren}</Button>
     </Form>
   );

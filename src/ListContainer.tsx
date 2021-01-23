@@ -21,11 +21,11 @@ export const ListContainer: React.FC<Props> = ({ todos, onChange }) => {
     return (
       <ListItem key={todo.id}>
         <Input
+          labelText={todo.name}
           type="checkbox"
           checked={todo.completed}
           onChange={handleChangeId}
         />
-        {todo.name}
       </ListItem>
     );
   });
