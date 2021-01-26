@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormContainer } from './FormContainer';
 import { Header } from './Header';
 import { Input } from './Input';
@@ -44,6 +44,10 @@ const Page: React.FC = () => {
 
   const incompleteTodos = todos.filter((todo) => !todo.completed);
   const completedTodos = todos.filter((todo) => todo.completed);
+
+  useEffect(() => {
+    document.title = `未完了タスク (${incompleteTodos.length})`;
+  }, [incompleteTodos]);
 
   // TODO: Header と ListContainer をまとめてコンポーネントに切り出す
   return (
