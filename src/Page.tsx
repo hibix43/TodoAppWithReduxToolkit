@@ -11,15 +11,13 @@ export type Todo = {
 };
 
 const Page: React.FC = () => {
-  const [newTodoName, setNewTodoName] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newId, setNewId] = useState(0);
   const [showCompleted, setShowCompleted] = useState(false);
 
-  const addTodo = () => {
+  const addTodo = (newTodoName: string) => {
     if (newTodoName === '') return;
     const newTodo = { id: newId, name: newTodoName, completed: false };
-    setNewTodoName('');
     setNewId(newId + 1);
     setTodos([...todos, newTodo]);
   };
@@ -53,12 +51,7 @@ const Page: React.FC = () => {
   return (
     <div>
       <Header level={1}>{'TodoList'}</Header>
-      <FormContainer
-        inputValue={newTodoName}
-        buttonChildren={'追加'}
-        onSubmit={addTodo}
-        onChange={setNewTodoName}
-      />
+      <FormContainer buttonChildren={'追加'} onSubmit={addTodo} />
       <Input
         labelText={'完了済みを表示する'}
         type="checkbox"

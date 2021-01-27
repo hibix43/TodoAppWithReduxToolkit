@@ -1,27 +1,27 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from './Button';
 import { Form } from './Form';
 import { Input } from './Input';
 
 type Props = {
-  inputValue: string;
   buttonChildren: string;
-  onSubmit: () => void;
-  onChange: (value: string) => void;
+  onSubmit: (name: string) => void;
 };
 
 export const FormContainer: React.FC<Props> = ({
-  inputValue,
   buttonChildren,
-  onSubmit,
-  onChange
+  onSubmit
 }) => {
+  // TODO: FormContainer,ListContainer ではなく AddTodoForm, TodoList といった固有の名前をつける
+  const [newTodoName, setNewTodoName] = useState<string>('');
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+    setNewTodoName(e.target.value);
   };
   const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit();
+    setNewTodoName('');
+    onSubmit(newTodoName);
   };
 
   return (
@@ -29,7 +29,7 @@ export const FormContainer: React.FC<Props> = ({
       <Input
         labelText={''}
         type="text"
-        value={inputValue}
+        value={newTodoName}
         onChange={handleChange}
       />
       <Button type="submit">{buttonChildren}</Button>
