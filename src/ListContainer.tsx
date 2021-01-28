@@ -21,9 +21,7 @@ export const ListContainer: React.FC<Props> = ({
   ) => {
     onChange(id, e.target.checked);
   };
-  const handleClick = (id: number) => (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleClick = (id: number) => () => {
     onClick(id);
   };
 
