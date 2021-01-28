@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { FormContainer } from './FormContainer';
+import { TodoForm } from './TodoForm';
 import { Header } from './Header';
 import { Input } from './Input';
-import { ListContainer } from './ListContainer';
+import { TodoList } from './TodoList';
 
 export type Todo = {
   id: number;
@@ -40,6 +40,20 @@ const Page: React.FC = () => {
     setShowCompleted(e.target.checked);
   };
 
+  const fixTodoName = (id: number, name: string) => {
+    const changedTodo = {
+      ...todos.find((todo) => todo.id == id),
+      name
+    };
+    setTodos(
+      Object.assign([
+        // TODO: 書き換えた Todo が最後尾になってしまう問題を解決する
+        ...todos.filter((todo) => todo.id != changedTodo.id),
+        changedTodo
+      ])
+    );
+  };
+
   const incompleteTodos = todos.filter((todo) => !todo.completed);
   const completedTodos = todos.filter((todo) => todo.completed);
 
@@ -51,7 +65,7 @@ const Page: React.FC = () => {
   return (
     <div>
       <Header level={1}>{'TodoList'}</Header>
-      <FormContainer buttonChildren={'追加'} onSubmit={addTodo} />
+      <TodoForm buttonChildren={'追加'} onSubmit={addTodo} />
       <Input
         labelText={'完了済みを表示する'}
         type="checkbox"
@@ -59,19 +73,21 @@ const Page: React.FC = () => {
         onChange={handleShowCompleted}
       ></Input>
       <Header level={2}>{`未完了: ${incompleteTodos.length} 件`}</Header>
-      <ListContainer
+      <TodoList
         todos={incompleteTodos}
-        onChange={changeTodoChecked}
-        onClick={deleteTodo}
+        onCheckboxChange={changeTodoChecked}
+        onDeleteButtonClick={deleteTodo}
+        onFixName={fixTodoName}
       />
       {showCompleted && (
         <Header level={2}>{`完了: ${completedTodos.length} 件`}</Header>
       )}
       {showCompleted && (
-        <ListContainer
+        <TodoList
           todos={completedTodos}
-          onChange={changeTodoChecked}
-          onClick={deleteTodo}
+          onCheckboxChange={changeTodoChecked}
+          onDeleteButtonClick={deleteTodo}
+          onFixName={fixTodoName}
         />
       )}
     </div>

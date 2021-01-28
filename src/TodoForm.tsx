@@ -8,11 +8,7 @@ type Props = {
   onSubmit: (name: string) => void;
 };
 
-export const FormContainer: React.FC<Props> = ({
-  buttonChildren,
-  onSubmit
-}) => {
-  // TODO: FormContainer,ListContainer ではなく AddTodoForm, TodoList といった固有の名前をつける
+export const TodoForm: React.FC<Props> = ({ buttonChildren, onSubmit }) => {
   const [newTodoName, setNewTodoName] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
