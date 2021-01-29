@@ -41,17 +41,11 @@ const Page: React.FC = () => {
   };
 
   const fixTodoName = (id: number, name: string) => {
-    const changedTodo = {
-      ...todos.find((todo) => todo.id == id),
-      name
-    };
-    setTodos(
-      Object.assign([
-        // TODO: 書き換えた Todo が最後尾になってしまう問題を解決する
-        ...todos.filter((todo) => todo.id != changedTodo.id),
-        changedTodo
-      ])
-    );
+    const copied = [...todos];
+    const targetIndex = todos.findIndex((todo) => todo.id == id);
+    const changedTodo = { ...copied[targetIndex], name };
+    copied[targetIndex] = changedTodo;
+    setTodos(copied);
   };
 
   const incompleteTodos = todos.filter((todo) => !todo.completed);
