@@ -14,6 +14,7 @@ const Page: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newId, setNewId] = useState(0);
   const [showCompleted, setShowCompleted] = useState(false);
+  const [filterText, setFilterText] = useState('');
 
   const addTodo = (newTodoName: string) => {
     if (newTodoName === '') return;
@@ -48,8 +49,13 @@ const Page: React.FC = () => {
     setTodos(copied);
   };
 
-  const incompleteTodos = todos.filter((todo) => !todo.completed);
-  const completedTodos = todos.filter((todo) => todo.completed);
+  const handleFilterTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterText(e.target.value);
+  };
+
+  const filterdTodos = todos.filter((todo) => todo.name.includes(filterText));
+  const incompleteTodos = filterdTodos.filter((todo) => !todo.completed);
+  const completedTodos = filterdTodos.filter((todo) => todo.completed);
 
   useEffect(() => {
     document.title = `未完了タスク (${incompleteTodos.length})`;
@@ -65,7 +71,13 @@ const Page: React.FC = () => {
         type="checkbox"
         checked={showCompleted}
         onChange={handleShowCompleted}
-      ></Input>
+      />
+      <Input
+        labelText={''}
+        type="text"
+        value={filterText}
+        onChange={handleFilterTextChange}
+      />
       <Header level={2}>{`未完了: ${incompleteTodos.length} 件`}</Header>
       <TodoList
         todos={incompleteTodos}
