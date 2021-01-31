@@ -3,12 +3,7 @@ import { TodoForm } from './TodoForm';
 import { Header } from './Header';
 import { Input } from './Input';
 import { TodoList } from './TodoList';
-
-export type Todo = {
-  id: number;
-  name: string;
-  completed: boolean;
-};
+import { Todo } from './types';
 
 const Page: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { ListItem } from './ListItem';
 import { Button } from './Button';
 import { Input } from './Input';
-import { Todo } from './Page';
 import { Form } from './Form';
+import { Todo } from './types';
 
 export const TodoListItem: React.FC<{
   todo: Todo;
