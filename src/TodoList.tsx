@@ -5,9 +5,9 @@ import { Todo } from './types';
 
 type Props = {
   todos: Todo[];
-  onCheckboxChange: (id: number, completed: boolean) => void;
-  onDeleteButtonClick: (id: number) => void;
-  onFixName: (id: number, name: string) => void;
+  onCheckboxChange: (id: string, completed: boolean) => void;
+  onDeleteButtonClick: (id: string) => void;
+  onFixName: (id: string, name: string) => void;
 };
 
 export const TodoList: React.FC<Props> = ({
@@ -16,15 +16,15 @@ export const TodoList: React.FC<Props> = ({
   onDeleteButtonClick,
   onFixName
 }) => {
-  const handleChange = (id: number) => (
+  const handleChange = (id: string) => (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     onCheckboxChange(id, e.target.checked);
   };
-  const handleClick = (id: number) => () => {
+  const handleClick = (id: string) => () => {
     onDeleteButtonClick(id);
   };
-  const handleSubmit = (id: number) => (name: string) => {
+  const handleSubmit = (id: string) => (name: string) => {
     onFixName(id, name);
   };
 

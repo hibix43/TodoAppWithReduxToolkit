@@ -13,13 +13,17 @@ const Page: React.FC = () => {
 
   const addTodo = (newTodoName: string) => {
     if (newTodoName === '') return;
-    const newTodo = { id: newId, name: newTodoName, completed: false };
+    const newTodo = {
+      id: newId.toString(),
+      name: newTodoName,
+      completed: false
+    };
     setNewId(newId + 1);
     setTodos([...todos, newTodo]);
   };
 
-  const changeTodoChecked = (id: number, completed: boolean) => {
-    const changedTodo = { ...todos.find((todo) => todo.id == id), completed };
+  const changeTodoChecked = (id: string, completed: boolean) => {
+    const changedTodo = { ...todos.find((todo) => todo.id === id), completed };
     setTodos(
       Object.assign([
         ...todos.filter((todo) => todo.id != changedTodo.id),
@@ -28,17 +32,17 @@ const Page: React.FC = () => {
     );
   };
 
-  const deleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id != id));
+  const deleteTodo = (id: string) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   const handleShowCompleted = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShowCompleted(e.target.checked);
   };
 
-  const fixTodoName = (id: number, name: string) => {
+  const fixTodoName = (id: string, name: string) => {
     const copied = [...todos];
-    const targetIndex = todos.findIndex((todo) => todo.id == id);
+    const targetIndex = todos.findIndex((todo) => todo.id === id);
     const changedTodo = { ...copied[targetIndex], name };
     copied[targetIndex] = changedTodo;
     setTodos(copied);
