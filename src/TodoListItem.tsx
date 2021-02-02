@@ -1,80 +1,73 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { ListItem } from './ListItem';
 import { Button } from './Button';
 import { Input } from './Input';
-import { Todo } from './Page';
 import { Form } from './Form';
+import { Todo } from './types';
+import { changeTodoCompleted, changeTodoName, deleteTodo } from './todoSlice';
 
-export const TodoListItem: React.FC<{
-  todo: Todo;
-  handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleDeleteButtonClick: () => void;
-  handleFixTodoName: (name: string) => void;
-}> = ({
-  todo,
-  handleCheckboxChange,
-  handleDeleteButtonClick,
-  handleFixTodoName
-}) => {
+export const TodoListItem: React.FC<{ todo: Todo }> = ({ todo }) => {
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
 
   const handleClickToggleEditing = () => {
     setIsEditing(!isEditing);
   };
 
-  const TodoListItemEditedComponent = (
-    <TodoListItemEdited
-      todo={todo}
-      handleCheckboxChange={handleCheckboxChange}
-      handleButtonClick={handleClickToggleEditing}
-    />
-  );
-  const TodoListItemEditingComponent = (
-    <TodoListItemEditing
-      todo={todo}
-      handleFixName={handleFixTodoName}
-      handleButtonClick={handleClickToggleEditing}
-    />
-  );
-  const Item = isEditing
-    ? TodoListItemEditingComponent
-    : TodoListItemEditedComponent;
+  const handleClickDeleteButton = () => {
+    dispatch(deleteTodo(todo.id));
+  };
 
   return (
     <ListItem key={todo.id}>
-      {Item}
-      <Button type="button" onClick={handleDeleteButtonClick}>
+      {isEditing ? (
+        <EditableTodoItem
+          todo={todo}
+          handleClickButton={handleClickToggleEditing}
+        />
+      ) : (
+        <FixedTodoItem
+          todo={todo}
+          handleClickButton={handleClickToggleEditing}
+        />
+      )}
+      <Button type="button" onClick={handleClickDeleteButton}>
         {'削除'}
       </Button>
     </ListItem>
   );
 };
 
-const TodoListItemEdited: React.FC<{
+const FixedTodoItem: React.FC<{
   todo: Todo;
-  handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleButtonClick: () => void;
-}> = ({ todo, handleCheckboxChange, handleButtonClick }) => {
+  handleClickButton: () => void;
+}> = ({ todo, handleClickButton }) => {
+  const dispatch = useDispatch();
+  const handleChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeTodoCompleted({ ...todo, completed: e.target.checked }));
+  };
+
   return (
     <>
       <Input
         labelText={todo.name}
         type="checkbox"
         checked={todo.completed}
-        onChange={handleCheckboxChange}
+        onChange={handleChangeCheckbox}
       />
-      <Button type="button" onClick={handleButtonClick}>
+      <Button type="button" onClick={handleClickButton}>
         {'編集'}
       </Button>
     </>
   );
 };
 
-const TodoListItemEditing: React.FC<{
+const EditableTodoItem: React.FC<{
   todo: Todo;
-  handleFixName: (name: string) => void;
-  handleButtonClick: () => void;
-}> = ({ todo, handleFixName, handleButtonClick }) => {
+  handleClickButton: () => void;
+}> = ({ todo, handleClickButton }) => {
+  const dispatch = useDispatch();
   const [todoName, setTodoName] = useState(todo.name);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,8 +76,8 @@ const TodoListItemEditing: React.FC<{
 
   const handleSubmitClick = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleFixName(todoName);
-    handleButtonClick();
+    dispatch(changeTodoName({ ...todo, name: todoName }));
+    handleClickButton();
   };
 
   return (
