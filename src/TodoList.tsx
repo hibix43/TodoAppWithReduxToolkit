@@ -1,47 +1,38 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { List } from './List';
 import { TodoListItem } from './TodoListItem';
 import { Todo } from './types';
+import { RootState } from './store';
 
 type Props = {
-  todos: Todo[];
-  onCheckboxChange: (id: string, completed: boolean) => void;
-  onDeleteButtonClick: (id: string) => void;
-  onFixName: (id: string, name: string) => void;
+  filterText: string;
+  showTodosCategory: 'All' | 'Completed' | 'Incompleted';
 };
 
 export const TodoList: React.FC<Props> = ({
-  todos,
-  onCheckboxChange,
-  onDeleteButtonClick,
-  onFixName
+  filterText,
+  showTodosCategory
 }) => {
-  const handleChange = (id: string) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    onCheckboxChange(id, e.target.checked);
-  };
-  const handleClick = (id: string) => () => {
-    onDeleteButtonClick(id);
-  };
-  const handleSubmit = (id: string) => (name: string) => {
-    onFixName(id, name);
-  };
-
-  const rows = todos.map((todo) => {
-    const handleChangeId = handleChange(todo.id);
-    const handleClickId = handleClick(todo.id);
-    const handleSubmitId = handleSubmit(todo.id);
-    return (
-      <TodoListItem
-        key={todo.id}
-        todo={todo}
-        handleCheckboxChange={handleChangeId}
-        handleDeleteButtonClick={handleClickId}
-        handleFixTodoName={handleSubmitId}
-      />
-    );
+  const todos = useSelector<RootState, Todo[]>((state) => state.todo.todos);
+  const filteredTodos = todos.filter((todo) => todo.name.includes(filterText));
+  const showTodos = selectShowTodos(filteredTodos, showTodosCategory);
+  const rows = showTodos.map((todo) => {
+    return <TodoListItem key={todo.id} todo={todo} />;
   });
 
   return <List>{rows}</List>;
+};
+
+const selectShowTodos = (
+  todos: Todo[],
+  category: Props['showTodosCategory']
+) => {
+  if (category === 'Completed') {
+    return todos.filter((todo) => todo.completed);
+  }
+  if (category === 'Incompleted') {
+    return todos.filter((todo) => !todo.completed);
+  }
+  return todos;
 };

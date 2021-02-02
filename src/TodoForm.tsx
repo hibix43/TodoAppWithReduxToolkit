@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button } from './Button';
 import { Form } from './Form';
 import { Input } from './Input';
+import { addTodo } from './todoSlice';
 
 type Props = {
   buttonChildren: string;
-  onSubmit: (name: string) => void;
 };
 
-export const TodoForm: React.FC<Props> = ({ buttonChildren, onSubmit }) => {
+export const TodoForm: React.FC<Props> = ({ buttonChildren }) => {
+  const dispatch = useDispatch();
   const [newTodoName, setNewTodoName] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +19,7 @@ export const TodoForm: React.FC<Props> = ({ buttonChildren, onSubmit }) => {
   const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     setNewTodoName('');
-    onSubmit(newTodoName);
+    dispatch(addTodo(newTodoName));
   };
 
   return (
