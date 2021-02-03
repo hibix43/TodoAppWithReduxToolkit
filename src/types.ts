@@ -3,3 +3,6 @@ export type Todo = {
   name: string;
   completed: boolean;
 };
+
+export const showTodosCategory = ['All', 'Completed', 'Incompleted'] as const;
+export type showTodosCategory = typeof showTodosCategory[number];
