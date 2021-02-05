@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { List } from './List';
 import { TodoListItem } from './TodoListItem';
@@ -16,11 +16,19 @@ export const TodoList: React.FC<Props> = ({
   showTodosCategory
 }) => {
   const todos = useSelector<RootState, Todo[]>((state) => state.todo.todos);
-  const filteredTodos = todos.filter((todo) => todo.name.includes(filterText));
-  const showTodos = selectShowTodos(filteredTodos, showTodosCategory);
-
-  if (!showTodos.length) {
+  const selectedTodos = selectShowTodos(todos, showTodosCategory);
+  useEffect(() => {
+    document.title = `${showTodosCategory}: ${selectedTodos.length} | TodoAppWithReduxToolkit`;
+  }, [selectedTodos, showTodosCategory]);
+  if (!selectedTodos.length) {
     return <p>{emptyMessage[showTodosCategory]}</p>;
+  }
+
+  const showTodos = selectedTodos.filter((todo) =>
+    todo.name.includes(filterText)
+  );
+  if (!showTodos.length) {
+    return <p>{'Not found!'}</p>;
   }
 
   const rows = showTodos.map((todo) => {
