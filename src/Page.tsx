@@ -26,7 +26,7 @@ const Page: React.FC = () => {
   return (
     <div>
       <Header level={1}>{'TodoList'}</Header>
-      <TodoForm buttonChildren={'追加'} />
+      <TodoForm buttonChildren={'Add'} />
       <Input
         labelText={''}
         type="text"
