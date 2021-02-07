@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { TodoForm } from './TodoForm';
 import { Header } from './Header';
 import { Input } from './Input';
@@ -24,7 +25,7 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div>
+    <Wrapper>
       <Header level={1}>{'TodoList'}</Header>
       <TodoForm buttonChildren={'Add'} />
       <Input
@@ -41,8 +42,15 @@ const Page: React.FC = () => {
         handleChange={handleShowCategory}
       />
       <TodoList filterText={filterText} showTodosCategory={showCategory} />
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  margin: 48px auto;
+  padding: 16px;
+  background-color: #fefefe;
+  width: 670px;
+`;
 
 export default Page;
