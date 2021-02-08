@@ -9,6 +9,6 @@ export const Button = styled.button`
   margin: 4px;
   text-decoration: none;
   color: #f9690e;
-  border: solid 1px #f9690e;
+  border: 1px solid #f9690e;
   border-radius: 4px;
 `;

@@ -17,6 +17,7 @@ export const TodoForm: React.FC<Props> = ({ buttonChildren }) => {
     setNewTodoName(e.target.value);
   };
   const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
+    // TODO: newTodoName  が空なら追加しない
     e.preventDefault();
     setNewTodoName('');
     dispatch(addTodo(newTodoName));
