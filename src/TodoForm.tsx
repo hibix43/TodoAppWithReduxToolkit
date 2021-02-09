@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { Button } from './Button';
-import { Form } from './Form';
 import { Input } from './Input';
 import { addTodo } from './todoSlice';
 
@@ -29,9 +29,18 @@ export const TodoForm: React.FC<Props> = ({ buttonChildren }) => {
         labelText={''}
         type="text"
         value={newTodoName}
+        size={50}
         onChange={handleChange}
       />
       <Button type="submit">{buttonChildren}</Button>
     </Form>
   );
 };
+
+const Form = styled.form`
+  display: flex;
+  justify-content: flex-start;
+  button {
+    margin-left: auto;
+  }
+`;

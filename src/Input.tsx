@@ -11,9 +11,10 @@ interface Props extends InputElement {
 const StyledWrapper = styled.input.attrs((props: InputElement) => ({
   ...props
 }))`
-  padding: 4px 16px 4px 4px;
+  display: inline-block;
+  padding: 0.3em;
   font-size: 16px;
-  border: 1px solid #f5a370;
+  border: 2px solid #f5a370;
   border-radius: 4px;
   box-sizing: border-box;
   :focus {

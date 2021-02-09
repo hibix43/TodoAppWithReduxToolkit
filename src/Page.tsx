@@ -24,10 +24,10 @@ const Page: React.FC = () => {
     setShowCategory(e.target.value as showTodosCategory);
   };
 
+  // TODO: 検索窓は画面右上に
   return (
     <Wrapper>
       <Header level={1}>{'TodoList'}</Header>
-      <TodoForm buttonChildren={'Add'} />
       <Input
         labelText={''}
         type="text"
@@ -35,6 +35,7 @@ const Page: React.FC = () => {
         placeholder={'検索'}
         onChange={handleFilterTextChange}
       />
+      <TodoForm buttonChildren={'Add'} />
       <RadioButton
         name={'showCategory'}
         options={radioButtonOptions}
