@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { TodoForm } from './TodoForm';
 import { Header } from './Header';
 import { Input } from './Input';
@@ -23,10 +24,10 @@ const Page: React.FC = () => {
     setShowCategory(e.target.value as showTodosCategory);
   };
 
+  // TODO: 検索窓は画面右上に
   return (
-    <div>
+    <Wrapper>
       <Header level={1}>{'TodoList'}</Header>
-      <TodoForm buttonChildren={'追加'} />
       <Input
         labelText={''}
         type="text"
@@ -34,6 +35,7 @@ const Page: React.FC = () => {
         placeholder={'検索'}
         onChange={handleFilterTextChange}
       />
+      <TodoForm buttonChildren={'Add'} />
       <RadioButton
         name={'showCategory'}
         options={radioButtonOptions}
@@ -41,8 +43,15 @@ const Page: React.FC = () => {
         handleChange={handleShowCategory}
       />
       <TodoList filterText={filterText} showTodosCategory={showCategory} />
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  margin: 48px auto;
+  padding: 16px;
+  background-color: #fefefe;
+  width: 670px;
+`;
 
 export default Page;
